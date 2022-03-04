@@ -4,8 +4,8 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
-    "dev": "cross-env DEBUG=books:* nodemon ./bin/www",
-    "debug": "cross-env DEBUG=books:* nodemon --inspect ./bin/www"
+    "dev": "cross-env DEBUG=photos:* nodemon ./bin/www",
+    "debug": "cross-env DEBUG=photos:* nodemon --inspect ./bin/www"
   },
   "dependencies": {
     "bcrypt": "^5.0.1",
