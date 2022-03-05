@@ -15,6 +15,9 @@ router.get('/', (req, res, next) => {
 // Login a user and get a JWT token
 router.post('/login', userValidationRules.loginRules, authController.login);
 
+// Issue a new JWT access token
+router.post('/refresh', authController.refresh);
+
 // Register a new user
 router.post('/register', userValidationRules.createRules, authController.register);
 

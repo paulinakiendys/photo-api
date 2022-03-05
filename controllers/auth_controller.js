@@ -69,6 +69,56 @@ const jwt = require('jsonwebtoken');
 }
 
 /**
+ * Validate refresh token and issue a new access token
+ *
+ * POST /refresh
+ * {
+ *   "token": ""
+ * }
+ */
+const refresh = (req, res) => {
+	// validate the refresh token (check signature and expiry date)
+	try {
+		// split authorization header into "authSchema token"
+		const [authSchema, token] = req.headers.authorization.split(' ');
+		if (authSchema.toLowerCase() !== "bearer") {
+			return res.status(401).send({
+				status: 'fail',
+				data: 'Authorization failed',
+			});
+		}
+		// verify token using the refresh token secret (and extract payload)
+		const payload = jwt.verify(token, process.env.REFRESH_TOKEN_SECRET);
+
+		// construct payload
+		// remove `iat` and `exp` from refresh token payload
+		delete payload.iat;
+		delete payload.exp;
+
+		// sign payload and get access token
+		const access_token = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {
+			expiresIn: process.env.ACCESS_TOKEN_LIFETIME || '1h',
+		});
+
+		// send the access token to the client
+		return res.send({
+			status: 'success',
+			data: {
+				access_token,
+			}
+		});
+
+	} catch (error) {
+		console.log("error", error)
+		return res.status(401).send({
+			status: 'fail',
+			data: 'Invalid token',
+		});
+	}
+
+}
+
+/**
  * Register a new user
  *
  * POST /register
@@ -120,5 +170,6 @@ const register = async (req, res) => {
 
 module.exports = {
 	login,
+	refresh,
 	register,
 }
