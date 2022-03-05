@@ -109,13 +109,11 @@ const refresh = (req, res) => {
 		});
 
 	} catch (error) {
-		console.log("error", error)
 		return res.status(401).send({
 			status: 'fail',
 			data: 'Invalid token',
 		});
 	}
-
 }
 
 /**
@@ -152,11 +150,13 @@ const register = async (req, res) => {
 		const user = await new models.User(validData).save();
 		debug("Created new user successfully: %O", user);
 
-		delete user.attributes.password;
-
 		res.send({
 			status: 'success',
-			data: user,
+			data: {
+				email: validData.email,
+				first_name: validData.first_name,
+				last_name: validData.last_name,
+			}
 		});
 
 	} catch (error) {
