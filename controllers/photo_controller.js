@@ -22,6 +22,44 @@ const models = require('../models');
 }
 
 /**
+ * Get a specific resource
+ *
+ * GET /:photoId
+ */
+ const show = async (req, res) => {
+
+	// fetch the user (and eager-load the photos-relation)
+	const user = await models.User.fetchById(req.user.user_id, { withRelated: ['photos'] });
+
+	const photos = user.related('photos');
+
+	// check if photo is already in the user's list of photos
+	const existing_photo = photos.find(photo => photo.id == req.params.photoId);
+
+	// if it does not exist, bail
+	if (!existing_photo) {
+		return res.status(404).send({
+			status: 'fail',
+			data: 'Photo Not Found',
+		});
+	}
+
+	try {
+		res.status(200).send({
+			status: 'success',
+			data: existing_photo,
+		});
+
+	} catch (error) {
+		res.status(500).send({
+			status: 'error',
+			message: 'Exception thrown in database when getting photo.',
+		});
+		throw error;
+	}
+}
+
+/**
  * Store a new resource
  *
  * POST /
@@ -44,7 +82,7 @@ const store = async (req, res) => {
 		const photo = await new models.Photo(validData).save();
 		debug("Created new photo successfully: %O", photo);
 
-		res.send({
+		res.status(200).send({
 			status: 'success',
 			data: {
 				photo,
@@ -62,5 +100,6 @@ const store = async (req, res) => {
 
 module.exports = {
 	index,
+	show,
 	store,
 }
