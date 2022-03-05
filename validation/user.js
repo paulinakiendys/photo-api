@@ -25,6 +25,25 @@ const createRules = [
 	body('last_name').exists().isLength({ min: 3 }),
 ];
 
+/**
+ * Login User validation rules
+ *
+ * Required: email, password
+ * Optional: -
+ */
+const loginRules = [
+	body('email').exists().isEmail().custom(async value => {
+		const user = await new models.User({ email: value }).fetch({ require: false });
+		if (!user) {
+			return Promise.reject(`User with email ${value} does not exist.`);
+		}
+
+		return Promise.resolve();
+	}),
+	body('password').exists().isLength({ min: 6 }),
+];
+
 module.exports = {
 	createRules,
+	loginRules,
 }

@@ -2,7 +2,7 @@
  * Authentication Middleware
  */
 
-const debug = require('debug')('books:auth');
+const debug = require('debug')('photos:auth');
 const jwt = require('jsonwebtoken');
 const { User } = require('../models');
 
