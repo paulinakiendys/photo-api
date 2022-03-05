@@ -3,8 +3,8 @@ const router = express.Router();
 const photoController = require('../controllers/photo_controller');
 const photoValidationRules = require('../validation/photo');
 
-// /* Get all resources */
-// router.get('/', photoController.index);
+/* Get all resources */
+router.get('/', photoController.index);
 
 // /* Get a specific resource */
 // router.get('/:photoId', photoController.show);

@@ -7,6 +7,21 @@ const { matchedData, validationResult } = require('express-validator');
 const models = require('../models');
 
 /**
+ * Get all resources
+ *
+ * GET /
+ */
+ const index = async (req, res) => {
+	// fetch the user (and eager-load the photos-relation)
+	const user = await models.User.fetchById(req.user.user_id, { withRelated: ['photos'] });
+
+	res.status(200).send({
+		status: 'success',
+		data: user.related('photos'),
+	});
+}
+
+/**
  * Store a new resource
  *
  * POST /
@@ -46,5 +61,6 @@ const store = async (req, res) => {
 }
 
 module.exports = {
+	index,
 	store,
 }
