@@ -12,6 +12,9 @@ router.get('/', albumController.index);
 /* Store a new resource */
 router.post('/', albumValidationRules.createAndUpdateRules, albumController.store);
 
+/* Add a photo to an album */
+ router.post('/:albumId/photos', albumValidationRules.addPhotoRules, albumController.addPhoto);
+
 /* Update a specific resource */
 router.put('/:albumId', albumValidationRules.createAndUpdateRules, albumController.update);
 
