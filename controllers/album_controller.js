@@ -22,6 +22,47 @@ const models = require('../models');
 }
 
 /**
+ * Get a specific resource
+ *
+ * GET /:albumId
+ */
+const show = async (req, res) => {
+
+	// fetch the user (and eager-load the albums-relation)
+	const user = await models.User.fetchById(req.user.user_id, { withRelated: ['albums'] });
+
+	const albums = user.related('albums');
+
+	// check if album is already in the user's list of albums
+	const existing_album = albums.find(album => album.id == req.params.albumId);
+
+	// if it does not exist, bail
+	if (!existing_album) {
+		return res.status(404).send({
+			status: 'fail',
+			data: 'Album Not Found',
+		});
+	}
+
+	try {
+		// fetch album and eager-load photos relation
+		const album = await models.Album.fetchById(req.params.albumId, { withRelated: ['photos'] });
+
+		res.status(200).send({
+			status: 'success',
+			data: album,
+		});
+
+	} catch (error) {
+		res.status(500).send({
+			status: 'error',
+			message: 'Exception thrown in database when getting album.',
+		});
+		throw error;
+	}
+}
+
+/**
  * Store a new resource
  *
  * POST /
@@ -183,6 +224,7 @@ const update = async (req, res) => {
 
 module.exports = {
 	index,
+	show,
 	store,
 	update,
 	addPhoto,
