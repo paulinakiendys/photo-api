@@ -98,8 +98,61 @@ const store = async (req, res) => {
 	}
 }
 
+/**
+ * Update a specific resource
+ *
+ * PUT /:photoId
+ */
+const update = async (req, res) => {
+
+	// fetch the user (and eager-load the photos-relation)
+	const user = await models.User.fetchById(req.user.user_id, { withRelated: ['photos'] });
+
+	const photos = user.related('photos');
+
+	// check if photo is already in the user's list of photos
+	const existing_photo = photos.find(photo => photo.id == req.params.photoId);
+
+	// if it does not exist, bail
+	if (!existing_photo) {
+		return res.status(404).send({
+			status: 'fail',
+			data: 'Photo Not Found',
+		});
+	}
+
+	// check for any validation errors
+	const errors = validationResult(req);
+	if (!errors.isEmpty()) {
+		return res.status(422).send({ status: 'fail', data: errors.array() });
+	}
+
+	// get only the validated data from the request
+	const validData = matchedData(req);
+	
+	console.log("The validated data:", validData);
+
+	try {
+		const updatedPhoto = await existing_photo.save(validData);
+		debug("Updated photo successfully: %O", updatedPhoto);
+
+		res.status(200).send({
+			status: 'success',
+			data: updatedPhoto,
+		});
+
+	} catch (error) {
+		res.status(500).send({
+			status: 'error',
+			message: 'Exception thrown in database when updating photo.',
+		});
+		throw error;
+	}
+}
+
 module.exports = {
 	index,
 	show,
 	store,
+	update,
 }
