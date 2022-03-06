@@ -9,7 +9,7 @@ router.get('/', (req, res, next) => {
 	res.send({ success: true, data: { msg: 'oh, hi' }});
 });
 
-// router.use('/albums', auth.validateJwtToken, require('./albums'));
+router.use('/albums', auth.validateJwtToken, require('./albums'));
 router.use('/photos', auth.validateJwtToken, require('./photos'));
 
 // Login a user and get a JWT token

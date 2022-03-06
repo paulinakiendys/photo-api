@@ -84,9 +84,7 @@ const store = async (req, res) => {
 
 		res.status(200).send({
 			status: 'success',
-			data: {
-				photo,
-			},
+			data: photo,
 		});
 
 	} catch (error) {
