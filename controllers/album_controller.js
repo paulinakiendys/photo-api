@@ -161,11 +161,11 @@ const update = async (req, res) => {
  const addPhoto = async (req, res) => {
 
 	// fetch the user (and eager-load the albums-relation)
-	const user = await models.User.fetchById(req.user.user_id, { withRelated: ['albums'] });
+	const userAlbums = await models.User.fetchById(req.user.user_id, { withRelated: ['albums'] });
 
-	const albums = user.related('albums');
+	const albums = userAlbums.related('albums');
 
-	// check if album is already in the user's list of albums
+	// check if album is in the user's list of albums
 	const existing_album = albums.find(album => album.id == req.params.albumId);
 
 	// if it does not exist, bail
@@ -187,17 +187,33 @@ const update = async (req, res) => {
 
 	console.log("The validated data:", validData);
 
+	// fetch the user (and eager-load the photos-relation)
+	const userPhotos = await models.User.fetchById(req.user.user_id, { withRelated: ['photos'] });
+
+	const photos = userPhotos.related('photos');
+
+	// check if photo is in the user's list of photos
+	const existing_photo = photos.find(photo => photo.id == validData.photo_id);
+
+	// if it does not exist, bail
+	if (!existing_photo) {
+		return res.status(404).send({
+			status: 'fail',
+			data: 'Photo Not Found',
+		});
+	}
+
 	// fetch album and eager-load photos relation
 	const album = await models.Album.fetchById(req.params.albumId, { withRelated: ['photos'] });
 
 	// get the albums's photos
-	const photos = album.related('photos');
+	const albumPhotos = album.related('photos');
 
 	// check if photo is already in the album's list of photos
-	const existing_photo = photos.find(photo => photo.id == validData.photo_id);
+	const existing_album_photo = albumPhotos.find(photo => photo.id == validData.photo_id);
 
 	// if it already exists, bail
-	if (existing_photo) {
+	if (existing_album_photo) {
 		return res.send({
 			status: 'fail',
 			data: 'Photo already exists.',
