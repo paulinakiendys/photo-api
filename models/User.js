@@ -11,9 +11,9 @@ module.exports = (bookshelf) => {
 			return this.hasMany('Album');
 		},
 		photos() {
-		return this.hasMany('Photo');
-	}
-}, {
+			return this.hasMany('Photo');
+		}
+	}, {
 		hashSaltRounds: 10,
 
 		async fetchById(id, fetchOptions = {}) {

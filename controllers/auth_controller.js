@@ -17,7 +17,7 @@ const jwt = require('jsonwebtoken');
  *   "password": ""
  * }
  */
- const login = async (req, res) => {
+const login = async (req, res) => {
 	// check for any validation errors
 	const errors = validationResult(req);
 	if (!errors.isEmpty()) {
@@ -59,7 +59,7 @@ const jwt = require('jsonwebtoken');
 	});
 
 	// respond with the access-token
-	return res.send({
+	return res.status(200).send({
 		status: 'success',
 		data: {
 			access_token,
@@ -101,7 +101,7 @@ const refresh = (req, res) => {
 		});
 
 		// send the access token to the client
-		return res.send({
+		return res.status(200).send({
 			status: 'success',
 			data: {
 				access_token,
@@ -150,7 +150,7 @@ const register = async (req, res) => {
 		const user = await new models.User(validData).save();
 		debug("Created new user successfully: %O", user);
 
-		res.send({
+		res.status(200).send({
 			status: 'success',
 			data: {
 				email: validData.email,

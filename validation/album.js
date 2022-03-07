@@ -29,7 +29,14 @@ const addPhotoRules = [
  * Optional: -
  */
 const createAndUpdateRules = [
-	body('title').exists().isLength({ min: 3 }),
+	body('title').exists().isLength({ min: 3 }).custom(async value => {
+		const album = await new models.Album({ title: value }).fetch({ require: false });
+		if (album) {
+			return Promise.reject(`Album with title '${value}' already exists.`);
+		}
+
+		return Promise.resolve();
+	}),
 ];
 
 module.exports = {

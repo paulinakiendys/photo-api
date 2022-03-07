@@ -11,7 +11,7 @@ const models = require('../models');
  *
  * GET /
  */
- const index = async (req, res) => {
+const index = async (req, res) => {
 	// fetch the user (and eager-load the albums-relation)
 	const user = await models.User.fetchById(req.user.user_id, { withRelated: ['albums'] });
 
@@ -132,7 +132,7 @@ const update = async (req, res) => {
 
 	// get only the validated data from the request
 	const validData = matchedData(req);
-	
+
 	console.log("The validated data:", validData);
 
 	try {
@@ -158,7 +158,7 @@ const update = async (req, res) => {
  *
  * POST /:albumId/photos
  */
- const addPhoto = async (req, res) => {
+const addPhoto = async (req, res) => {
 
 	// fetch the user (and eager-load the albums-relation)
 	const userAlbums = await models.User.fetchById(req.user.user_id, { withRelated: ['albums'] });
@@ -214,7 +214,7 @@ const update = async (req, res) => {
 
 	// if it already exists, bail
 	if (existing_album_photo) {
-		return res.send({
+		return res.status(400).send({
 			status: 'fail',
 			data: 'Photo already exists.',
 		});
@@ -224,7 +224,7 @@ const update = async (req, res) => {
 		const result = await album.photos().attach(validData.photo_id);
 		debug("Added photo to album successfully: %O", result);
 
-		res.send({
+		res.status(200).send({
 			status: 'success',
 			data: null,
 		});

@@ -11,7 +11,7 @@ const models = require('../models');
  *
  * GET /
  */
- const index = async (req, res) => {
+const index = async (req, res) => {
 	// fetch the user (and eager-load the photos-relation)
 	const user = await models.User.fetchById(req.user.user_id, { withRelated: ['photos'] });
 
@@ -26,7 +26,7 @@ const models = require('../models');
  *
  * GET /:photoId
  */
- const show = async (req, res) => {
+const show = async (req, res) => {
 
 	// fetch the user (and eager-load the photos-relation)
 	const user = await models.User.fetchById(req.user.user_id, { withRelated: ['photos'] });

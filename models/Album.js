@@ -9,8 +9,8 @@ module.exports = (bookshelf) => {
 			return this.belongsToMany('Photo');
 		},
 		users() {
-		   return this.belongsTo('User');
-	   },
+			return this.belongsTo('User');
+		},
 	}, {
 
 		async fetchById(id, fetchOptions = {}) {
