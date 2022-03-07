@@ -18,6 +18,9 @@ router.post('/:albumId/photos', albumValidationRules.addPhotoRules, albumControl
 /* Update a specific resource */
 router.put('/:albumId', albumValidationRules.createAndUpdateRules, albumController.update);
 
+/* Remove a photo from an album */
+router.delete('/:albumId/photos/:photoId', albumController.removePhoto);
+
 // /* Destroy a specific resource */
 // router.delete('/:albumId', albumController.destroy);
 

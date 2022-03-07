@@ -238,10 +238,85 @@ const addPhoto = async (req, res) => {
 	}
 }
 
+/**
+ * Remove a photo from an album
+ *
+ * DELETE /:albumId/photos/:photoId
+ */
+const removePhoto = async (req, res) => {
+
+	// fetch the user (and eager-load the albums-relation)
+	const userAlbums = await models.User.fetchById(req.user.user_id, { withRelated: ['albums'] });
+
+	const albums = userAlbums.related('albums');
+
+	// check if album is in the user's list of albums
+	const existing_album = albums.find(album => album.id == req.params.albumId);
+
+	// if it does not exist, bail
+	if (!existing_album) {
+		return res.status(404).send({
+			status: 'fail',
+			data: 'Album Not Found',
+		});
+	}
+
+	// fetch the user (and eager-load the photos-relation)
+	const userPhotos = await models.User.fetchById(req.user.user_id, { withRelated: ['photos'] });
+
+	const photos = userPhotos.related('photos');
+
+	// check if photo is in the user's list of photos
+	const existing_photo = photos.find(photo => photo.id == req.params.photoId);
+
+	// if it does not exist, bail
+	if (!existing_photo) {
+		return res.status(404).send({
+			status: 'fail',
+			data: 'Photo Not Found',
+		});
+	}
+
+	// fetch album and eager-load photos relation
+	const album = await models.Album.fetchById(req.params.albumId, { withRelated: ['photos'] });
+
+	// get the albums's photos
+	const albumPhotos = album.related('photos');
+
+	// check if photo is in the album's list of photos
+	const existing_album_photo = albumPhotos.find(photo => photo.id == req.params.photoId);
+
+	// if it does not exist, bail
+	if (!existing_album_photo) {
+		return res.status(400).send({
+			status: 'fail',
+			data: 'Photo does not exist in album.',
+		});
+	}
+
+	try {
+		const result = await album.photos().detach(req.params.photoId);
+		debug("Removed photo from album successfully: %O", result);
+
+		res.status(200).send({
+			status: 'success',
+			data: null,
+		});
+
+	} catch (error) {
+		res.status(500).send({
+			status: 'error',
+			message: 'Exception thrown in database when removing a photo from an album.',
+		});
+		throw error;
+	}
+}
+
 module.exports = {
 	index,
 	show,
 	store,
 	update,
 	addPhoto,
+	removePhoto,
 }
