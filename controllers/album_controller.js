@@ -383,6 +383,53 @@ const removePhoto = async (req, res) => {
 	}
 }
 
+/**
+ * Delete an album (incl. the links to the photos, but not the photos themselves)
+ *
+ * DELETE /:albumId
+ */
+const destroy = async (req, res) => {
+
+	// fetch the user (and eager-load the albums-relation)
+	const userAlbums = await models.User.fetchById(req.user.user_id, { withRelated: ['albums'] });
+
+	const albums = userAlbums.related('albums');
+
+	// check if album is in the user's list of albums
+	const existing_album = albums.find(album => album.id == req.params.albumId);
+
+	// if it does not exist, bail
+	if (!existing_album) {
+		return res.status(404).send({
+			status: 'fail',
+			data: 'Album Not Found',
+		});
+	}
+
+	try {
+		// fetch album
+		let album = await models.Album.fetchById(req.params.albumId);
+
+		const result = await album.photos().detach();
+		debug("Removed photos from album successfully: %O", result);
+
+		album = await album.destroy();
+
+		res.status(200).send({
+			status: 'success',
+			data: null,
+		});
+
+	} catch (error) {
+		res.status(500).send({
+			status: 'error',
+			message: 'Exception thrown in database when deleting an album.',
+		});
+		throw error;
+	}
+
+}
+
 module.exports = {
 	index,
 	show,
@@ -391,4 +438,5 @@ module.exports = {
 	addPhoto,
 	addPhotos,
 	removePhoto,
+	destroy,
 }

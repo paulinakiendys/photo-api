@@ -24,7 +24,7 @@ router.put('/:albumId', albumValidationRules.createAndUpdateRules, albumControll
 /* Remove a photo from an album */
 router.delete('/:albumId/photos/:photoId', albumController.removePhoto);
 
-// /* Destroy a specific resource */
-// router.delete('/:albumId', albumController.destroy);
+/* Delete an album (incl. the links to the photos, but not the photos themselves). */
+router.delete('/:albumId', albumController.destroy);
 
 module.exports = router;
