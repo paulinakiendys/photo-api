@@ -23,6 +23,28 @@ const addPhotoRules = [
 ];
 
 /**
+ * Add multiple photos to album validation rules
+ *
+ * Required: photo_id
+ * Optional: -
+ */
+const addPhotosRules = [
+	body('photo_id').exists().isArray({ min: 1 }).bail().custom(async value => {
+		const photos = await new models.Photo({ id: value }).fetchAll({ require: false });
+
+		const existing_ids = photos.map(photos => photos.id);
+
+		const result = value.every(id => existing_ids.includes(id));
+
+		if (!result) {
+			return Promise.reject('Photo(s) do not exist');
+		}
+
+		return Promise.resolve();
+	}),
+];
+
+/**
  * Create and Update Album validation rules
  *
  * Required: title
@@ -41,5 +63,6 @@ const createAndUpdateRules = [
 
 module.exports = {
 	addPhotoRules,
+	addPhotosRules,
 	createAndUpdateRules,
 }
