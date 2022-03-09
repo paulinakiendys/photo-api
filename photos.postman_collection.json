@@ -1,0 +1,419 @@
+{
+	"info": {
+		"_postman_id": "a9419fd5-7f0c-44b0-82b2-fc216a7a7891",
+		"name": "photos",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "Photos",
+					"item": [
+						{
+							"name": "GET /photos",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URL}}/photos",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"photos"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET /photos/:photoId",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URL}}/photos/24",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"photos",
+										"24"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST /photos",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"title\": \"Happy Photo\",\r\n    \"url\": \"https://images.unsplash.com/photo-1454486837617-ce8e1ba5ebfe\",\r\n    \"comment\": \"So happy\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/photos",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"photos"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "PUT /photos/:photoId",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"title\": \"When life gives you confetti, celebrate\",\r\n    \"comment\": \"Yolo\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/photos/24",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"photos",
+										"24"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DELETE /photos/:photoId",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URL}}/photos/25",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"photos",
+										"25"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Albums",
+					"item": [
+						{
+							"name": "GET /albums",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URL}}/albums",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"albums"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET /albums/:albumId",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URL}}/albums/11",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"albums",
+										"11"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST /albums",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"title\": \"Happy Album\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/albums",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"albums"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST /albums/:albumId/photos",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"photo_id\": [24, 26]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/albums/11/photos",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"albums",
+										"11",
+										"photos"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "PUT /albums/:albumId",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"title\": \"Confetti'R'Us\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/albums/11",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"albums",
+										"11"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DELETE /albums/:albumId/photos/:photoId",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URL}}/albums/5/photos/19",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"albums",
+										"5",
+										"photos",
+										"19"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DELETE /albums/:albumId",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URL}}/albums/12",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"albums",
+										"12"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "POST /refresh",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/refresh",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"refresh"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJqbkBiYWRjYW1lcmFwaG90b2dyYXBoeS5jb20iLCJ1c2VyX2lkIjoyNSwibmFtZSI6IkpvaGFuIE5vcmRzdHLDtm0iLCJpYXQiOjE2NDY4MjYwNzQsImV4cCI6MTY0Njg0NzY3NH0.u_qcVLXq0imD3_9y15KpR77GXDtQYWK8kGvmT8WrQIA",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "POST /register",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"jn@badcameraphotography.com\",\r\n  \"password\": \"omg-smile\",\r\n  \"first_name\": \"Johan\",\r\n  \"last_name\": \"Nordström\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/register",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST /login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n   \"email\": \"jn@badcameraphotography.com\",\r\n  \"password\": \"omg-smile\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/login",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "BASE_URL",
+			"value": "http://localhost:3000",
+			"type": "string"
+		}
+	]
+}
