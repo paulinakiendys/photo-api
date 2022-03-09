@@ -1,6 +1,6 @@
 # photo-api
 
-Simple [REST API](https://jovial-wing-e15648.netlify.app/) with a [MySQL](https://www.mysql.com/) database built using [express.js](https://expressjs.com/) and [bookshelf.js](https://bookshelfjs.org/).
+Simple [REST API](https://fed21-photo-api.herokuapp.com/) with a [MySQL](https://www.mysql.com/) database built using [express.js](https://expressjs.com/) and [bookshelf.js](https://bookshelfjs.org/).
 
 ## Table of contents
 * [Requirements](#requirements)
