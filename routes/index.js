@@ -6,7 +6,7 @@ const auth = require('../middlewares/auth');
 
 /* GET / */
 router.get('/', (req, res, next) => {
-	res.send({ success: true, data: { msg: 'oh, hi' } });
+	res.send({ success: true, data: { msg: 'deployed to Heroku' } });
 });
 
 router.use('/albums', auth.validateJwtToken, require('./albums'));
